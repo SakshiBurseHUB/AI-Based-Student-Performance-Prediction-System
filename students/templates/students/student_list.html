@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students</title>
+</head>
+<body>
+
+    <h1>Student Performance System</h1>
+
+    <h2>Student List</h2>
+
+    {% if students %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Attendance</th>
+                    <th>Study Hours</th>
+                    <th>Previous Marks</th>
+                    <th>Assignment Marks</th>
+                    <th>Internal Marks</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.student_id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.attendance }}</td>
+                    <td>{{ student.study_hours }}</td>
+                    <td>{{ student.previous_marks }}</td>
+                    <td>{{ student.assignment_marks }}</td>
+                    <td>{{ student.internal_marks }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No students found.</p>
+    {% endif %}
+
+    <h2>Student List</h2>
+    <a href="{% url 'students:add_student' %}">
+    <button>Add Student</button>
+</a>
+
+</body>
+</html>
