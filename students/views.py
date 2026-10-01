@@ -31,6 +31,7 @@ def add_student(request):
 
 def predict_student_performance(request):
     prediction = None
+    message = None
 
     if request.method == 'POST':
         attendance = float(request.POST['attendance'])
@@ -47,6 +48,14 @@ def predict_student_performance(request):
             internal_marks
         )
 
+        if prediction == 'High':
+            message = 'The student is performing well and maintaining good academic progress.'
+        elif prediction == 'Medium':
+            message = 'The student may need additional academic support and regular monitoring.'
+        else:
+            message = 'The student needs attention and academic support to improve performance.'
+
     return render(request, 'students/predict.html', {
-        'prediction': prediction
+        'prediction': prediction,
+        'message': message
     })
