@@ -59,3 +59,35 @@ def predict_student_performance(request):
         'prediction': prediction,
         'message': message
     })
+
+def dashboard(request):
+    students = Student.objects.all()
+
+    total_students = students.count()
+    high_students = 0
+    medium_students = 0
+    low_students = 0
+
+    for student in students:
+        prediction = predict_performance(
+            student.attendance,
+            student.study_hours,
+            student.previous_marks,
+            student.assignment_marks,
+            student.internal_marks
+        )
+
+        if prediction == 'High':
+            high_students += 1
+        elif prediction == 'Medium':
+            medium_students += 1
+        elif prediction == 'Low':
+            low_students += 1
+
+    return render(request, 'students/dashboard.html', {
+        'students': students,
+        'total_students': total_students,
+        'high_students': high_students,
+        'medium_students': medium_students,
+        'low_students': low_students,
+    })
