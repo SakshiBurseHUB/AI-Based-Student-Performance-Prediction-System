@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Student
 
+from src.ml.predict import predict_performance
+
 
 def student_list(request):
     students = Student.objects.all()
+
     return render(request, 'students/student_list.html', {
         'students': students
     })
@@ -24,3 +27,26 @@ def add_student(request):
         return redirect('students:student_list')
 
     return render(request, 'students/student_form.html')
+
+
+def predict_student_performance(request):
+    prediction = None
+
+    if request.method == 'POST':
+        attendance = float(request.POST['attendance'])
+        study_hours = float(request.POST['study_hours'])
+        previous_marks = float(request.POST['previous_marks'])
+        assignment_marks = float(request.POST['assignment_marks'])
+        internal_marks = float(request.POST['internal_marks'])
+
+        prediction = predict_performance(
+            attendance,
+            study_hours,
+            previous_marks,
+            assignment_marks,
+            internal_marks
+        )
+
+    return render(request, 'students/predict.html', {
+        'prediction': prediction
+    })
